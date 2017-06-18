@@ -1,7 +1,7 @@
-package com.potopalskyi.server;
+package com.potopalskyi.webserver.server;
 
-import com.potopalskyi.util.ResourceReader;
-import com.potopalskyi.handler.RequestHandler;
+import com.potopalskyi.webserver.util.ResourceReader;
+import com.potopalskyi.webserver.handler.RequestHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,13 +18,13 @@ public class WebServer {
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
-            try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                 BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
 
-                RequestHandler requestHandler = new RequestHandler(bufferedReader, bufferedWriter, resourceReader);
+            try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                 BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)
+            ) {
+                RequestHandler requestHandler = new RequestHandler(bufferedReader, resourceReader, bufferedOutputStream);
                 requestHandler.handle();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

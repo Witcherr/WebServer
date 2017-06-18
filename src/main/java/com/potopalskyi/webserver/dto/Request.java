@@ -1,4 +1,4 @@
-package com.potopalskyi.dto;
+package com.potopalskyi.webserver.dto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +30,14 @@ public class Request {
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "method=" + method +
+                ", url='" + url + '\'' +
+                ", headers=" + headers +
+                '}';
     }
 }
